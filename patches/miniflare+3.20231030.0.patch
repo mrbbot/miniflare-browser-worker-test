@@ -1,0 +1,38 @@
+diff --git a/node_modules/miniflare/dist/src/index.js b/node_modules/miniflare/dist/src/index.js
+index a7d03e3..5afd0ce 100644
+--- a/node_modules/miniflare/dist/src/index.js
++++ b/node_modules/miniflare/dist/src/index.js
+@@ -4478,11 +4478,13 @@ async function coupleWebSocket(ws, pair) {
+     );
+   }
+   ws.on("message", (message, isBinary) => {
++    console.log("--->", message.toString());
+     if (!pair[kClosedOutgoing]) {
+       pair[kSend](isBinary ? viewToBuffer(message) : message.toString());
+     }
+   });
+   ws.on("close", (code, reason) => {
++    console.log("---*", code, reason.toString());
+     if (!pair[kClosedOutgoing]) {
+       pair[kClose](code, reason.toString());
+     }
+@@ -4491,9 +4493,11 @@ async function coupleWebSocket(ws, pair) {
+     pair[kError](error);
+   });
+   pair.addEventListener("message", (e) => {
++    console.log("<---", Buffer.from(e.data).toString());
+     ws.send(e.data);
+   });
+   pair.addEventListener("close", (e) => {
++    console.log("*---", e.code, e.reason);
+     if (e.code === 1005) {
+       ws.close();
+     } else if (e.code === 1006) {
+@@ -4551,6 +4555,7 @@ Make sure you're using http(s):// URLs for WebSocket requests via fetch.`
+     const ws = new import_ws2.default(url13, protocols, {
+       followRedirects: request.redirect === "follow",
+       headers,
++      perMessageDeflate: false,
+       ...rejectUnauthorized
+     });
+     const headersPromise = new DeferredPromise();

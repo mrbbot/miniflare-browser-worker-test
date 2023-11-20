@@ -5,10 +5,15 @@
   "scripts": {
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
-    "start": "wrangler dev"
+    "start": "wrangler dev",
+		"miniflare": "wrangler build && node miniflare.mjs"
   },
   "devDependencies": {
+    "@cloudflare/puppeteer": "^0.0.5",
     "@cloudflare/workers-types": "^4.20230419.0",
+    "miniflare": "^3.20231030.0",
+    "patch-package": "^8.0.0",
+    "puppeteer": "^21.5.2",
     "typescript": "^5.0.4",
     "wrangler": "^3.0.0"
   }
